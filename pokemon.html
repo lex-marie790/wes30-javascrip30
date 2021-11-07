@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="Pokemon">
+    <ul class="suggestions">
+      <li>Filter for a Pokemon</li>
+    </ul>
+  </form>
+<script>
+const endpoint = 'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json';
+const pokemon = [];
+fetch(endpoint)
+  .then(blob => blob.json())
+  .then(data => pokemon.push(...data.pokemon));
+
+function findMatches(wordToMatch, pokemon) {
+    return pokemon.filter(poke => {
+        const regex = new RegExp(wordToMatch, 'gi');
+            return poke.name.match(regex)
+    });
+}
+
+function displayMatches() {
+    const matchArray = findMatches(this.value, pokemon);
+    const html = matchArray.map(poke => {
+        const regex = new RegExp(this.value, 'gi');
+        const pokeName = poke.name.replace(regex,`<span class="hl">${this.value}</span>`);
+        return `
+            <li>
+                <span class='breed' id='name'>${pokeName}</span>
+                <span class='pokemon'>${poke.type}</span>
+                <span class='pokemon'>${poke.next_evolutions}</span>
+                <img src=${poke.img} />
+            </li>
+        `;
+    })
+    suggestions.innerHTML = html
+}
+
+
+const searchWords = document.querySelector('.search')
+const suggestions = document.querySelector('.suggestions')
+
+searchWords.addEventListener('change', displayMatches)
+searchWords.addEventListener('keyup', displayMatches)
+
+
+</script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="Dogs">
+    <ul class="suggestions">
+      <li>Learn More About Dogs</li>
+    </ul>
+  </form>
+<script>
+// step 1. find an api to use and set up endpoint
+const endpoint = 'https://gist.githubusercontent.com/kastriotadili/acc722c9858189440d964db976303078/raw/ba63ffd45a76e54fd816ff471e9f3ac348e983b7/dog-breeds-data.json';
+// step 2. create a new array of the item
+const dogs = [];
+// step 3 fetch the data
+fetch(endpoint)
+  .then(blob => blob.json())
+  .then(data => dogs.push(...data.dogBreeds));
+
+// step 4 find items that match what we are looking for
+function findMatches(wordToMatch, dogs) {
+    return dogs.filter(breeds => {
+        const regex = new RegExp(wordToMatch, 'gi');
+        return breeds.breed.match(regex) 
+    });
+} 
+
+// step 5 changes the value point, types in search bar
+function displayMatches() {
+    const matchArray = findMatches(this.value, dogs);
+    const html = matchArray.map(breeds => {
+        const regex = new RegExp(this.value, 'gi');
+        const breedName = breeds.breed.replace(regex,`<span class="hl">${this.value}</span>`);
+        const breedType = breeds.breedType.replace(regex,`<span class="hl">${this.value}</span>`);
+        const breedOrigin = breeds.origin.replace(regex,`<span class="hl">${this.value}</span>`);
+        const breedTemperament = breeds.temperament[0].replace(regex,`<span class="hl">${this.value}</span>`);
+        return `
+            <li>
+                <span class='breed' id='name'>${breedName}</span>
+                <span class='breed'>Breed Type: ${breedType}</span>
+                <span class='breed'>Origin: ${breeds.origin}</span>
+                <span class='breed'>Temperament: ${breeds.temperament}</span>
+                
+            </li>
+        `;
+    })
+    suggestions.innerHTML = html
+    
+}
+
+// step 5 
+// grabs the search bar
+const searchWords = document.querySelector('.search')
+// grabs the suggestions box
+const suggestions = document.querySelector('.suggestions')
+
+// listens for events 
+searchWords.addEventListener('change', displayMatches)
+searchWords.addEventListener('keyup', displayMatches)
+
+
+</script>
+  </body>
+</html>
