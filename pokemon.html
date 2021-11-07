@@ -34,10 +34,10 @@ function displayMatches() {
         const pokeName = poke.name.replace(regex,`<span class="hl">${this.value}</span>`);
         return `
             <li>
-                <span class='breed' id='name'>${pokeName}</span>
-                <span class='pokemon'>${poke.type}</span>
-                <span class='pokemon'>${poke.next_evolutions}</span>
-                <img src=${poke.img} />
+                <span class='breed' id='name'>${pokeName}, ${poke.num}</span>
+                <span class='pokemon'>Type: ${poke.type}</span>
+                <span class='pokemon'>Weaknesses: ${poke.weaknesses}</span>
+                <img src=${poke.img} class='image' />
             </li>
         `;
     })

@@ -4,7 +4,7 @@ html {
     font-family: 'helvetica neue';
     font-size: 20px;
     font-weight: 200;
-    background-image: url('https://cdn.pixabay.com/photo/2015/09/15/18/17/paw-print-941498_960_720.jpg');
+    background-image: url('https://cdn.pixabay.com/photo/2016/08/08/06/46/pokemon-1577763_960_720.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -74,6 +74,12 @@ html {
   
   #name {
     font-weight: 700;
+  }
+
+  .image:hover {
+    width:250px;
+    height:auto;
+    display:block;
   }
   
   span.population {
